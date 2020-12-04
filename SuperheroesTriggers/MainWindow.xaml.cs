@@ -17,7 +17,7 @@ namespace SuperheroesTriggers
         {
             InitializeComponent();
             superheroes = Superheroe.GetSamples();
-            contenedorSuperheroe.DataContext = superheroes;
+            contenedor.DataContext = superheroes;
             actualTextBlock.Text = "1";
             totalTextBlock.Text = superheroes.Count.ToString();
             superheroe = new Superheroe();
@@ -59,7 +59,7 @@ namespace SuperheroesTriggers
             int actual = int.Parse(actualTextBlock.Text);
             if (actual > 1)
             {
-                contenedorSuperheroe.DataContext = superheroes[actual - 2];
+                contenedor.DataContext = superheroes[actual - 2];
                 actualTextBlock.Text = (actual - 1).ToString();
             }
         }
@@ -69,7 +69,7 @@ namespace SuperheroesTriggers
             int actual = int.Parse(actualTextBlock.Text);
             if (actual < superheroes.Count)
             {
-                contenedorSuperheroe.DataContext = superheroes[actual];
+                contenedor.DataContext = superheroes[actual];
                 actualTextBlock.Text = (actual + 1).ToString();
             }
         }

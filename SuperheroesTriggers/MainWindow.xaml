@@ -23,6 +23,11 @@
                     Value="20" />
             <Setter Property="MinWidth"
                     Value="450" />
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Background" Value="IndianRed"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="bordeBasico" TargetType="Border">
@@ -51,6 +56,11 @@
                     Value="100" />
             <Setter Property="Margin"
                     Value="5,10,5,5" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="info" TargetType="Image">
@@ -78,10 +88,59 @@
                     Value="Right" />
             <Setter Property="Margin"
                     Value="5,5,10,5" />
+            <Setter Property="Visibility" Value="Collapsed"/>
         </Style>
 
-        <local:BackgroundColorConverter x:Key="conversorColor"></local:BackgroundColorConverter>
-        <local:VisibilityConverter x:Key="conversorVisibilidad"></local:VisibilityConverter>
+        <Style x:Key="iconoVengador" TargetType="Image" BasedOn="{StaticResource iconos}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Vengador}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="iconoXmen" TargetType="Image" BasedOn="{StaticResource iconos}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Xmen}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DockPanel" x:Key="contenedorSuperheroe">
+            <Setter Property="Background" Value="IndianRed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Heroe}" Value="true">
+                    <Setter Property="Background" Value="PaleGreen"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="Titulo">
+            <Setter Property="DockPanel.Dock" Value="Left"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="42"/>
+            <Setter Property="Text" Value="{Binding Path=Nombre}"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="50" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="42" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
     
     <TabControl Margin="10">
@@ -89,20 +148,17 @@
             <TabItem.Header>
                 Ver superhéroes
             </TabItem.Header>
-            <DockPanel x:Name="contenedorSuperheroe" Background="{Binding Path=Heroe, Converter={StaticResource conversorColor}}">
+            <DockPanel x:Name="contenedor" Style="{StaticResource contenedorSuperheroe}">
                 <DockPanel LastChildFill="false"
                            DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left"
-                               Margin="5" Foreground="White" FontWeight="Bold" FontSize="42" Text="{Binding Path=Nombre}">
+                    <TextBlock Style="{StaticResource Titulo}">
                         <TextBlock.Effect>
                             <DropShadowEffect />
                         </TextBlock.Effect></TextBlock>
                     <Image Source="xmen.png"
-                           Visibility="{Binding Path=Xmen, Converter={StaticResource conversorVisibilidad}}"
-                           Style="{StaticResource iconos}" />
+                           Style="{StaticResource iconoXmen}" />
                     <Image Source="avengers.png"
-                           Visibility="{Binding Path=Vengador, Converter={StaticResource conversorVisibilidad}}"
-                           Style="{StaticResource iconos}" />
+                           Style="{StaticResource iconoVengador}" />
                 </DockPanel>
                 <StackPanel Orientation="Horizontal"
                             DockPanel.Dock="Bottom"
